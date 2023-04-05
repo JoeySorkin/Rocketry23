@@ -24,7 +24,6 @@ void Rocket::init()
     // sDecoupler->unlock();
     // delay(750);
     sDecoupler->lock();
-    delay(10000);
 
     state = PRELAUNCH;
 }
