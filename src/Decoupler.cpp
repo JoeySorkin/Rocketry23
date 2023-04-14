@@ -10,21 +10,9 @@ void Decoupler::init()
 }
 void Decoupler::lock()
 {
-    servo.write(180);
-    delay(15);
-    for (int i = 0; i < 1; i++)
-    {
-        sRocket->beep(600, 200);
-        delay(500);
-    }
+    servo.write(127);
 }
 void Decoupler::unlock()
 {
-    servo.write(0);
-    delay(15);
-    for (int i = 0; i < 1; i++)
-    {
-        sRocket->beep(500, 200);
-        delay(500);
-    }
+    servo.write(68);
 }

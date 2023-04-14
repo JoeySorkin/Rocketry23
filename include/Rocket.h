@@ -3,10 +3,15 @@
 #define sRocket Rocket::getInstance()
 
 #define BuzzerPort 1
-#define LAUNCH_VELOCITY_THRESHOLD 4 // m/s
-#define TIME_TO_DECOUPLE 4000       // ms
-#define ALT_TO_DECOUPLE 2.5         // m
-#define VEL_TO_DECOUPLE -4          // m/s
+#define LAUNCH_VELOCITY_THRESHOLD 10 // m/s
+#define TIME_TO_DECOUPLE 5650       // ms
+#define ALT_TO_DECOUPLE 100         // m
+#define VEL_TO_DECOUPLE -6          // m/s
+
+// #define LAUNCH_VELOCITY_THRESHOLD 3 // m/s
+// #define TIME_TO_DECOUPLE 5650       // ms
+// #define ALT_TO_DECOUPLE 2           // m
+// #define VEL_TO_DECOUPLE -3          // m/s
 
 class Rocket
 {
@@ -27,6 +32,7 @@ private:
 
     int launch_start_time_ms;
     void flight();
+    void decoupled();
 
 public:
     void beep(int frq, int length);

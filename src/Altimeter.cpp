@@ -11,11 +11,11 @@ void Altimeter::init()
     bmp.setPressureOversampling(BMP3_OVERSAMPLING_8X);
     bmp.setIIRFilterCoeff(BMP3_IIR_FILTER_COEFF_3);
     bmp.setOutputDataRate(BMP3_ODR_100_HZ);
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 20; i++)
     {
         bmp.readAltitude(SEALEVELPRESSURE_HPA);
     }
-    delay(50);
+    delay(20);
     bmp.performReading();
     zero();
 

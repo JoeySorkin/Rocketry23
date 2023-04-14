@@ -1,37 +1,48 @@
 #include "Logger.h"
 #include "Rocket.h"
-// void Logger::init()
-// {
-//     buffer.reserve(1024);
-//     if (!SD.begin())
-//     {
-//         Serial.println("Card failed, or not present");
-//         sRocket->beep(90, 5000);
-//         while (1)
-//             ;
+#include <SPI.h>
+#include <SD.h>
 
-//         logFile = SD.open(filename, FILE_WRITE);
-//         if (!logFile)
-//         {
-//             Serial.print("error opening ");
-//             Serial.println(filename);
-//             while (1)
-//                 ;
-//         }
-//     }
-// }
+Logger *Logger::INSTANCE = nullptr;
+void Logger::init()
+{
+    buffer.reserve(2048);
+    if (!SD.begin(chipSelect))
+    {
+        Serial.println("Card failed, or not present");
+        sRocket->beep(500, 9000);
+        while (1)
+            ;
 
-// void Logger::update()
-// {
-//     unsigned int chunkSize = logFile.availableForWrite();
-//     if (chunkSize && buffer.length() >= chunkSize)
-//     {
-//         // write to file and blink LED
-//         digitalWrite(LED_BUILTIN, HIGH);
-//         logFile.write(buffer.c_str(), chunkSize);
-//         digitalWrite(LED_BUILTIN, LOW);
+        logFile = SD.open(filename.c_str(), FILE_WRITE);
+        if (!logFile)
+        {
+            Serial.print("error opening ");
+            Serial.println(filename);
+            while (1)
+                ;
+        }
+        logFile.println("TIME,SUBSYSTEM,TYPE,MESSAGE");
+    }
+}
+void Logger::log(String subsystem, String type, String msg)
+{
+    logFile = SD.open(filename, FILE_WRITE);
 
-//         // remove written data from buffer
-//         buffer.remove(0, chunkSize);
-//     }
-// }
+    // if the file opened okay, write to it:
+
+    String log = String(millis()) + "," + subsystem + type + msg + "\n";
+    // buffer += log;
+    logFile.println(log);
+    logFile.close();
+}
+void Logger::update()
+{
+    // logFile.flush();
+    // unsigned int chunkSize = logFile.availableForWrite();
+    // if (chunkSize && buffer.length() >= chunkSize)
+    // {
+    //     logFile.write(buffer.c_str(), chunkSize);
+    //     buffer.remove(0, chunkSize);
+    // }
+}

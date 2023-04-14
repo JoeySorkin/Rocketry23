@@ -2,28 +2,27 @@
 #include "SD.h"
 #include "Arduino.h"
 #define sLogger Logger::getInstance()
-#include <Servo.h>
 
-#define SERVO_PIN 10
-// class Logger
-// {
-//     // private:
-//     //     static Logger *INSTANCE;
-//     //     const char filename[] = "logs.txt";
-//     //     File logFile;
-//     //     String buffer;
-//     //     long lastMillis = 0;
+class Logger
+{
+private:
+    static Logger *INSTANCE;
+    String filename = String("aunch.txt");
+    File logFile;
+    String buffer;
+    long lastMillis = 0;
+    const int chipSelect = 4;
 
-//     // public:
-//     //     void init();
-//     //     void update();
-//     //     void log(String msg);
-//     //     static Logger *getInstance()
-//     //     {
-//     //         if (!INSTANCE)
-//     //         {
-//     //             INSTANCE = new Logger();
-//     //         }
-//     //         return INSTANCE;
-//     //     }
-// };
+public:
+    void init();
+    void update();
+    void log(String subsystem, String type, String msg);
+    static Logger *getInstance()
+    {
+        if (!INSTANCE)
+        {
+            INSTANCE = new Logger();
+        }
+        return INSTANCE;
+    }
+};
